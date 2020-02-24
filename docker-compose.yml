@@ -1,0 +1,16 @@
+---
+version: '3.5'
+services:
+  smartystore-db:
+    container_name: sstore-db
+    image: postgres:10
+    environment:
+      - "POSTGRES_DB=sstore"
+      - "POSTGRES_USER=pilot"
+      - "POSTGRES_PASSWORD=pilot"
+    ports:
+      - 15432:5432
+    restart: unless-stopped
+networks:
+  default:
+     name: sstore_network

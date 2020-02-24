@@ -1,0 +1,16 @@
+server:
+  port: 8088
+
+## PostgreSQL
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/sstore
+    username: pilot
+    password: pilot
+
+  flyway:
+    url: {datasource.url}
+    user: {datasource.username}
+    password: {datasource.password}
+
+
