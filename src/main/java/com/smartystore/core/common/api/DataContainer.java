@@ -1,10 +1,10 @@
 package com.smartystore.core.common.api;
 
+import javax.validation.Valid;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.Valid;
 
 @Data
 @NoArgsConstructor

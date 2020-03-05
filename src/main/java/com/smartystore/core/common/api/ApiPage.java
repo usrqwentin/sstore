@@ -3,13 +3,20 @@ package com.smartystore.core.common.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.smartystore.core.common.api.annotation.PageLink;
-import lombok.Getter;
-import lombok.Setter;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -109,12 +116,12 @@ public class ApiPage<T extends ApiData> {
 
   public void buildUrlFromUrl(String rel, String urlName, Object... argumentValues) {
     String url = UriComponentsBuilder.fromUriString(urlName)
-                                     .buildAndExpand(argumentValues)
-                                     .toString()
-                                     .replaceAll("[^?=&]+=(&|$)", "")
-                                     .replaceAll("&$", "")
-                                     .replaceAll("[?]$", "")
-                                     .replaceAll(" ", "%20");
+        .buildAndExpand(argumentValues)
+        .toString()
+        .replaceAll("[^?=&]+=(&|$)", "")
+        .replaceAll("&$", "")
+        .replaceAll("[?]$", "")
+        .replaceAll(" ", "%20");
     links.add(new Link(rel, url));
   }
 
@@ -126,20 +133,20 @@ public class ApiPage<T extends ApiData> {
 
     for (PageLink pageLink : pageLinks) {
       List<String> permittedLinks = Arrays.asList(pageLink.accesses());
-        Object[] objects = new Object[pageLink.variables().length];
-        for (int i = 0; i < pageLink.variables().length; i++) {
+      Object[] objects = new Object[pageLink.variables().length];
+      for (int i = 0; i < pageLink.variables().length; i++) {
 
-          try {
-            String name = pageLink.variables()[i];
-            Method method = getClass().getMethod(name);
-            objects[i] = method.invoke(this);
-          } catch (Exception exc) {
-            // throw new RuntimeException(exc);
-          }
+        try {
+          String name = pageLink.variables()[i];
+          Method method = getClass().getMethod(name);
+          objects[i] = method.invoke(this);
+        } catch (Exception exc) {
+          // throw new RuntimeException(exc);
         }
-        addLink(pageLink.value(), pageLink.uri(), objects);
       }
+      addLink(pageLink.value(), pageLink.uri(), objects);
     }
+  }
 
   private boolean isLinkVisible(PageLink pageLink) {
     try {

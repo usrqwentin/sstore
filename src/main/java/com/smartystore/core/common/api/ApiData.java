@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApiData {
-    private Long id;
+  private Long id;
 }

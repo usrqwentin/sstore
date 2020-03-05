@@ -1,5 +1,5 @@
-create table public.profiles (
-  id       bigint not null constraint profiles_id_pk primary key,
+create table public.users (
+  id       bigint not null constraint users_id_pk primary key,
   login    varchar(64),
   password varchar(64),
   fullname varchar(64),
@@ -10,4 +10,6 @@ create table public.profiles (
   role     varchar(24)
 );
 
-create unique index profiles_id_uindex on profiles (id);
+create unique index users_id_uindex on users (id);
+
+create sequence public.hibernate_sequence start 1;

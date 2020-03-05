@@ -1,6 +1,7 @@
 package com.smartystore.core.common.api.exception;
 
-import com.smartystore.core.profiles.domain.validation.ProfileException;
+import com.smartystore.core.users.domain.validation.UserException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.nio.file.AccessDeniedException;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
-import java.nio.file.AccessDeniedException;
 
 import static com.smartystore.core.common.api.exception.ExceptionModel.createModel;
 
@@ -25,17 +27,18 @@ public class ExceptionApi {
   @ExceptionHandler(ValidationException.class)
   @ResponseBody
   public ExceptionModel handleValidationErrors(ValidationException ex, HttpServletResponse response) {
-    if (ex.getId() == 20)
+    if (ex.getId() == 20) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-    else
+    } else {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    }
     return createModel(ex.getMessage(), ex.getId());
   }
 
-  @ExceptionHandler(ProfileException.class)
+  @ExceptionHandler(UserException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionModel handleUserHasNoCompanyException(ProfileException ex) {
+  public ExceptionModel handleUserHasNoCompanyException(UserException ex) {
     return createModel(ex.getMessage(), 2);
   }
 

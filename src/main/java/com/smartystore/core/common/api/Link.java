@@ -1,6 +1,10 @@
 package com.smartystore.core.common.api;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -8,6 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 class Link {
-    private String rel;
-    private String href;
+  private String rel;
+  private String href;
 }

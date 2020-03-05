@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ValidationException extends RuntimeException {
-    private static final long serialVersionUID = 2359770307541876881L;
+  private static final long serialVersionUID = 2359770307541876881L;
 
-    private String message;
-    private String delimiter;
-    private int id;
+  private String message;
+  private String delimiter;
+  private int id;
 }
