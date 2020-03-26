@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +20,7 @@ import javax.validation.ConstraintViolationException;
 
 import static com.smartystore.core.common.api.exception.ExceptionModel.createModel;
 
-
+@Component
 @ControllerAdvice
 public class ExceptionApi {
   private static final Logger LOG = LoggerFactory.getLogger(ExceptionApi.class);
@@ -75,20 +76,20 @@ public class ExceptionApi {
     return createModel(ex.getErrorMessage(), ex.getErrorCode());
   }
 
-  @ExceptionHandler(Exception.class)
-  @ResponseBody
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public ExceptionModel handleUnexpectedCheckedException(Exception t) {
-    LOG.error("Unexpected server error", t);
-    return createModel(t.getMessage(), 1000);
-  }
-
-  @ExceptionHandler(RuntimeException.class)
-  @ResponseBody
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public ExceptionModel handleUnexpectedUncheckedException(RuntimeException t) {
-    LOG.error("Unexpected server error", t);
-    return createModel(t.getMessage(), 1000);
-  }
+//  @ExceptionHandler(Exception.class)
+//  @ResponseBody
+//  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//  public ExceptionModel handleUnexpectedCheckedException(Exception t) {
+//    LOG.error("Unexpected server error", t);
+//    return createModel(t.getMessage(), 1000);
+//  }
+//
+//  @ExceptionHandler(RuntimeException.class)
+//  @ResponseBody
+//  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//  public ExceptionModel handleUnexpectedUncheckedException(RuntimeException t) {
+//    LOG.error("Unexpected server error", t);
+//    return createModel(t.getMessage(), 1000);
+//  }
 
 }

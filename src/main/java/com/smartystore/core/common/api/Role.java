@@ -1,6 +1,6 @@
 package com.smartystore.core.common.api;
 
 public enum Role {
-  ANONYMOUS,
-  ADMIN;
+  ROLE_ANONYMOUS,
+  ROLE_ADMIN;
 }

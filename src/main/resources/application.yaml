@@ -13,4 +13,5 @@ spring:
     user: {datasource.username}
     password: {datasource.password}
 
-
+jwt:
+  secret: secret

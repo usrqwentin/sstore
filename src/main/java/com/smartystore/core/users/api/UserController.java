@@ -1,7 +1,7 @@
 package com.smartystore.core.users.api;
 
 import com.smartystore.core.common.api.DataContainer;
-import com.smartystore.core.common.utils.Paging;
+import com.smartystore.core.common.util.Paging;
 import com.smartystore.core.users.api.viewmodel.UserEditDto;
 import com.smartystore.core.users.domain.User;
 import com.smartystore.core.users.service.UserService;
@@ -9,6 +9,7 @@ import com.smartystore.core.users.service.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class UserController {
     return new ResponseEntity<>(UserModel.fromEntity(user), HttpStatus.CREATED);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping
   public UserPage listUsers(
       @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,

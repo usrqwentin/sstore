@@ -7,6 +7,7 @@ import com.smartystore.core.users.domain.User;
 import com.smartystore.core.users.domain.validation.UserException;
 import com.smartystore.core.users.repository.UserRepository;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.Data;
@@ -20,35 +21,32 @@ import static com.smartystore.core.common.domain.EntityStatus.ACTIVE;
 public class UserService extends BaseService<User> {
 
   private final UserRepository repository;
+  private final PasswordEncoder passwordEncoder;
 
   public User createUser(UserEditDto dto) {
-    repository.findByEmail(dto.getEmail()).ifPresent((user) -> {
-      throw UserException.create("A user with the specified email address already exists", 2);
+    repository.findByUsername(dto.getUsername()).ifPresent((user) -> {
+      throw UserException.create("Username already exists", 2);
     });
-    User user = User.builder()
-        .login(dto.getLogin())
-        .password(dto.getPassword())
-        .fullname(dto.getFullname())
-        .email(dto.getEmail())
-        .phone(dto.getPhone())
-        .iconUri(dto.getIconUri())
-        .role(dto.getRole())
-        .status(ACTIVE)
-        .build();
+    User user = new User();
+    fillUserFromDto(user, dto);
+    user.setStatus(ACTIVE);
     return repository.save(user);
   }
 
   public User updateUser(Long id, UserEditDto dto) {
     User user = repository.findById(id).orElseThrow(() -> new ApiNotFoundException(1, "User was not found"));
-    user.setLogin(dto.getLogin());
-    user.setPassword(dto.getPassword());
+    fillUserFromDto(user, dto);
+    return repository.save(user);
+  }
+
+  private void fillUserFromDto(User user, UserEditDto dto) {
+    user.setUsername(dto.getUsername());
+    user.setPassword(passwordEncoder.encode(dto.getPassword()));
     user.setFullname(dto.getFullname());
     user.setEmail(dto.getEmail());
     user.setPhone(dto.getPhone());
     user.setIconUri(dto.getIconUri());
     user.setRole(dto.getRole());
-    user.setStatus(dto.getStatus());
-    return repository.save(user);
   }
 
 }

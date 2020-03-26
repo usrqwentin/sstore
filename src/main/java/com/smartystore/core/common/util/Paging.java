@@ -1,4 +1,4 @@
-package com.smartystore.core.common.utils;
+package com.smartystore.core.common.util;
 
 import org.springframework.data.domain.Sort;
 

@@ -1,6 +1,6 @@
 create table public.users (
   id       bigint not null constraint users_id_pk primary key,
-  login    varchar(64),
+  username    varchar(64),
   password varchar(64),
   fullname varchar(64),
   email    varchar(24),

@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserReadDto extends ApiData {
-  private String login;
+  private String username;
   private String password;
   private String fullname;
   private String email;
@@ -23,7 +23,7 @@ public class UserReadDto extends ApiData {
   public static UserReadDto fromEntity(User user) {
     UserReadDto vm = new UserReadDto();
     vm.setId(user.getId());
-    vm.setLogin(user.getLogin());
+    vm.setUsername(user.getUsername());
     vm.setPassword(user.getPassword());
     vm.setFullname(user.getFullname());
     vm.setEmail(user.getEmail());
