@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-@RequestMapping("/products")
+//TODO: custom annotation https://stackoverflow.com/questions/28006501/ EX: @V1ApiOwnerController
+@RequestMapping("owner/products")
 @RestController
 public class ProductController {
   private ProductService productService;

@@ -23,12 +23,11 @@ public abstract class BaseService<T extends BaseEntity> {
 
   @Transactional(readOnly = true)
   public T findById(Long id) {
-    return getRepository().findById(id).orElseThrow(() -> new ApiNotFoundException(1, "Entity was not found"));
+    return getRepository().findById(id).orElseThrow(() -> new ApiNotFoundException("Entity was not found"));
   }
 
   public void deleteById(Long id) {
     findById(id);
     getRepository().deleteById(id);
   }
-
 }

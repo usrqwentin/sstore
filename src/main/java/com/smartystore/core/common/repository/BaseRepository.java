@@ -2,7 +2,6 @@ package com.smartystore.core.common.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -21,8 +20,9 @@ public interface BaseRepository<T> extends PagingAndSortingRepository<T, Long>, 
       + "AND status = com.smartystore.core.common.domain.EntityStatus.ACTIVE")
   Optional<T> findById(@Param("id") Long id);
 
-  @Modifying
+  //TODO: validation failed?
+  /*@Modifying
   @Query("UPDATE #{#entityName} SET status = com.smartystore.core.common.domain.EntityStatus.INACTIVE WHERE id = :id ")
-  void deleteById(@Param("id") Long id);
+  void deleteById(@Param("id") Long id);*/
 
 }

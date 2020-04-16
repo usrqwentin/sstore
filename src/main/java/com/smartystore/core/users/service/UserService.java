@@ -1,14 +1,20 @@
 package com.smartystore.core.users.service;
 
+import com.smartystore.core.common.Application;
 import com.smartystore.core.common.api.exception.ApiNotFoundException;
 import com.smartystore.core.common.service.BaseService;
 import com.smartystore.core.users.api.viewmodel.UserEditDto;
+import com.smartystore.core.users.domain.Owner;
+import com.smartystore.core.users.domain.Staff;
 import com.smartystore.core.users.domain.User;
 import com.smartystore.core.users.domain.validation.UserException;
 import com.smartystore.core.users.repository.UserRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +40,7 @@ public class UserService extends BaseService<User> {
   }
 
   public User updateUser(Long id, UserEditDto dto) {
-    User user = repository.findById(id).orElseThrow(() -> new ApiNotFoundException(1, "User was not found"));
+    User user = repository.findById(id).orElseThrow(() -> new ApiNotFoundException("User was not found"));
     fillUserFromDto(user, dto);
     return repository.save(user);
   }
@@ -48,5 +54,4 @@ public class UserService extends BaseService<User> {
     user.setIconUri(dto.getIconUri());
     user.setRole(dto.getRole());
   }
-
 }

@@ -1,6 +1,7 @@
 package com.smartystore.core.security.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartystore.core.common.domain.EntityStatus;
 import com.smartystore.core.users.domain.User;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,7 @@ public class UserPrincipal implements UserDetails {
   private String email;
   @JsonIgnore
   private String password;
+  private EntityStatus status;
   private Collection<? extends GrantedAuthority> authorities;
 
   public static UserPrincipal create(User user) {
@@ -36,10 +38,12 @@ public class UserPrincipal implements UserDetails {
         user.getUsername(),
         user.getEmail(),
         user.getPassword(),
+        user.getStatus(),
         authorities
     );
   }
 
+  // public Long getId() { return id; }
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities;
@@ -72,6 +76,7 @@ public class UserPrincipal implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    //TODO: Это верное сравнени?
+    return (status.equals(EntityStatus.ACTIVE));
   }
 }

@@ -19,4 +19,5 @@ public abstract class BaseEntity {
   @Enumerated(EnumType.STRING)
   private EntityStatus status;
 
+  //TODO: createdAt, updatedAt timestamps
 }

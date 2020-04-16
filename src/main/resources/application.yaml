@@ -12,6 +12,12 @@ spring:
     url: {datasource.url}
     user: {datasource.username}
     password: {datasource.password}
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
 
 jwt:
   secret: secret

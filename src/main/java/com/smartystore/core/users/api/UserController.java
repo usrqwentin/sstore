@@ -4,8 +4,10 @@ import com.smartystore.core.common.api.DataContainer;
 import com.smartystore.core.common.util.Paging;
 import com.smartystore.core.users.api.viewmodel.UserEditDto;
 import com.smartystore.core.users.domain.User;
+import com.smartystore.core.users.service.StaffService;
 import com.smartystore.core.users.service.UserService;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,32 +29,34 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("owner/users")
+@PreAuthorize("hasRole('OWNER')")
 public class UserController {
   private UserService userService;
+  private StaffService staffService;
 
-  @PostMapping
+  /*@PostMapping
   public ResponseEntity<UserModel> createUser(@RequestBody @Valid DataContainer<UserEditDto> viewModel) {
     User user = userService.createUser(viewModel.getData());
     return new ResponseEntity<>(UserModel.fromEntity(user), HttpStatus.CREATED);
-  }
+  }*/
 
-  @PreAuthorize("hasRole('ADMIN')")
+
   @GetMapping
-  public UserPage listUsers(
+  public StaffPage listUsers(
       @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
       @RequestParam(value = "rows", required = false, defaultValue = "20") Integer rows,
       @RequestParam(value = "sort", required = false, defaultValue = "idDesc") String sort) {
     PageRequest pageRequest = PageRequest.of(page - 1, rows, Paging.of(sort));
-    return new UserPage(userService.list(pageRequest), pageRequest);
+    return new StaffPage(staffService.findStaffOfCurrentOwner(pageRequest), pageRequest);
   }
 
   @GetMapping("/{id}")
-  public UserModel getUser(@PathVariable("id") Long userId) {
-    return UserModel.fromEntity(userService.findById(userId));
+  public StaffModel getUser(@PathVariable("id") Long userId) {
+    return StaffModel.fromEntity(staffService.findByIdOfCurrentOwner(userId));
   }
 
-  @PutMapping("/{id}")
+ /* @PutMapping("/{id}")
   public ResponseEntity<UserModel> updateUser(
       @PathVariable("id") Long id,
       @RequestBody @Valid DataContainer<UserEditDto> viewModel) {
@@ -64,6 +68,6 @@ public class UserController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteUser(@PathVariable("id") Long id) {
     userService.deleteById(id);
-  }
+  }*/
 
 }
